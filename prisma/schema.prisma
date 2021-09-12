@@ -1,0 +1,17 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id        BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  title     String
+  author    String
+  content   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+}
