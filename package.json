@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "dist/main.js",
   "scripts": {
+    "postinstall": "pnpm run pr:gen",
     "prestart": "pnpm run clean && pnpm run build",
     "start": "NODE_ENV=production node dist/main.js",
     "build": "tsc",
