@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { asClass, asValue, createContainer, Lifetime, listModules } from 'awilix';
 import Fastify, { FastifyInstance } from 'fastify';
 import { camelCase } from 'lodash';
@@ -46,9 +45,16 @@ export namespace Container {
     });
 
   export const create = async (): Promise<App> => {
-    await instance.resolve<PrismaClient>('prisma').$connect();
+    await Promise.all([
+      // initialization
+    ]);
     return instance.resolve<App>('app');
   };
 
-  export const destroy = (): Promise<void> => instance.dispose();
+  export const destroy = async (): Promise<void> => {
+    await Promise.all([
+      // cleanup
+    ]);
+    return instance.dispose();
+  };
 }

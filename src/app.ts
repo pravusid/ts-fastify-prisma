@@ -1,4 +1,4 @@
-import { FastifyInstance, RouteOptions } from 'fastify';
+import Fastify, { RouteOptions } from 'fastify';
 import cors from 'fastify-cors';
 import helmet from 'fastify-helmet';
 import { serializeError } from 'serialize-error';
@@ -10,34 +10,44 @@ export interface Routable {
 }
 
 export class App {
-  constructor(
-    //
-    private readonly server: FastifyInstance,
-    private readonly routes: Routable[],
-  ) {}
+  readonly fastify = Fastify({ logger: true });
 
-  init(): FastifyInstance {
-    this.server.register(helmet).register(cors);
-    this.server.register(RequestPlugin);
+  private isKeepAliveDisabled = false;
 
-    this.server.register((app, opts, done) => {
+  constructor(private readonly routes: Routable[]) {
+    const { fastify } = this;
+
+    fastify.register(helmet).register(cors);
+    fastify.register(RequestPlugin);
+
+    fastify.addHook('onRequest', (_, response, done) => {
+      if (this.isKeepAliveDisabled) {
+        response.header('Connection', 'close');
+      }
+      done();
+    });
+
+    fastify.register((app, opts, done) => {
       this.routes.forEach(({ routes }) => routes.forEach(r => app.route(r)));
       done();
     });
 
-    this.server.setErrorHandler((error, request, response) => {
+    fastify.setErrorHandler((error, request, response) => {
       const from = { ip: request.genuineIp };
       const serialized = serializeError(error);
 
       if (error instanceof PublicError) {
-        this.server.log.info({ ...from, error: serialized });
+        fastify.log.info({ ...from, error: serialized });
         response.status(error.statusCode).send({ statusCode: error.statusCode, message: error.message });
       } else {
-        this.server.log.error({ ...from, error: serialized });
+        fastify.log.error({ ...from, error: serialized });
         response.status(500).send({ statusCode: 500, message: 'Internal Error' });
       }
     });
 
-    return this.server;
+    fastify.addHook('onClose', (_, done) => {
+      this.isKeepAliveDisabled = true;
+      done();
+    });
   }
 }
