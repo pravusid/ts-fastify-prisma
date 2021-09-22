@@ -41,7 +41,7 @@ export namespace Container {
       logger: asValue(instance.resolve<FastifyInstance>('server').log),
     })
     .register({
-      routes: asValue(keys.api.map(key => instance.resolve<Routable>(key))),
+      apis: asValue(keys.api.map(key => instance.resolve<Routable>(key))),
     });
 
   export const create = async (): Promise<App> => {

@@ -14,7 +14,7 @@ export class App {
 
   private isKeepAliveDisabled = false;
 
-  constructor(private readonly routes: Routable[]) {
+  constructor(readonly apis: Routable[]) {
     const { fastify } = this;
 
     fastify.register(helmet).register(cors);
@@ -28,7 +28,7 @@ export class App {
     });
 
     fastify.register((app, opts, done) => {
-      this.routes.forEach(({ routes }) => routes.forEach(r => app.route(r)));
+      apis.forEach(({ routes }) => routes.forEach(rt => app.route(rt)));
       done();
     });
 
