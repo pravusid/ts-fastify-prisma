@@ -12,7 +12,7 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "dev": "pnpm run build && concurrently -p none \"tsc -w\" \"nodemon --watch dist --exec 'NODE_ENV=development node -r source-map-support/register' dist/main.js | pino-pretty\"",
-    "dev:debug": "pnpm run build && concurrently -p none \"tsc -w\" \"nodemon --inspect=9229 --watch dist --exec 'NODE_ENV=development node -r source-map-support/register' dist/main.js\"",
+    "dev:debug": "pnpm run build && concurrently -p none \"tsc -w\" \"nodemon --watch dist --exec 'NODE_ENV=debug node -r source-map-support/register --inspect=9229' dist/main.js\"",
     "dev:kill": "pgrep -fl nodemon | awk '{print $1}' | xargs -r -I{} kill -2 {} && lsof -ti :8080 | xargs -r -I{} kill {}",
     "pr:gen": "prisma generate",
     "pr:db": "prisma db",
