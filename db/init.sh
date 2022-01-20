@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-export DEV_CONTAINER_NAME="ts-fp"
+current_dir=$(dirname $BASH_SOURCE)
+cd $current_dir
+
+DEV_CONTAINER_NAME="ts-fp"
 
 docker \
   run \
