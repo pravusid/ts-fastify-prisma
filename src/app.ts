@@ -1,6 +1,6 @@
-import Fastify, { RouteOptions } from 'fastify';
-import cors from 'fastify-cors';
-import helmet from 'fastify-helmet';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import { FastifyInstance, RouteOptions } from 'fastify';
 import { serializeError } from 'serialize-error';
 import { PublicError } from './domain/public-error';
 import RequestPlugin from './plugin';
@@ -10,25 +10,16 @@ export interface Routable {
 }
 
 export class App {
-  readonly fastify = Fastify({ logger: true });
+  constructor(private readonly fastify: FastifyInstance, private readonly routables: Routable[]) {}
 
-  private isKeepAliveDisabled = false;
+  async init(): Promise<void> {
+    const { fastify, routables } = this;
 
-  constructor(readonly apis: Routable[]) {
-    const { fastify } = this;
+    await fastify.register(helmet).register(cors);
+    await fastify.register(RequestPlugin);
 
-    fastify.register(helmet).register(cors);
-    fastify.register(RequestPlugin);
-
-    fastify.addHook('onRequest', (_, response, done) => {
-      if (this.isKeepAliveDisabled) {
-        response.header('Connection', 'close');
-      }
-      done();
-    });
-
-    fastify.register((app, opts, done) => {
-      apis.forEach(({ routes }) => routes.forEach(rt => app.route(rt)));
+    await fastify.register((app, opts, done) => {
+      routables.forEach(({ routes }) => routes.forEach(rt => app.route(rt)));
       done();
     });
 
@@ -44,10 +35,9 @@ export class App {
         response.status(500).send({ statusCode: 500, message: 'Internal Error' });
       }
     });
+  }
 
-    fastify.addHook('onClose', (_, done) => {
-      this.isKeepAliveDisabled = true;
-      done();
-    });
+  getInstance(): FastifyInstance {
+    return this.fastify;
   }
 }

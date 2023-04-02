@@ -11,8 +11,8 @@ export default class PingApi implements Routable {
   private ping: RouteOptions = {
     method: 'GET',
     url: '/ping',
-    handler: async (req, resp) => {
-      resp.send({ message: 'pong' });
+    handler: () => {
+      return { message: 'pong' };
     },
   };
 }

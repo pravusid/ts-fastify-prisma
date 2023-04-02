@@ -4,10 +4,11 @@ import { Container } from './container';
 
 async function bootstrap() {
   try {
-    const { fastify } = await Container.create();
+    const app = await Container.initApp();
+    const fastify = app.getInstance();
 
     const graceful = GracefulServer(fastify.server, {
-      closePromises: [Container.destroy],
+      closePromises: [Container.destroyApp],
       timeout: 3_000,
     });
 
@@ -21,7 +22,8 @@ async function bootstrap() {
       console.log('Server is down', error);
     });
 
-    await fastify.listen(envs.port, '0.0.0.0');
+    await fastify.listen({ port: envs.port, host: '0.0.0.0' });
+
     graceful.setReady();
   } catch (error) {
     console.error('Fatal Error 🔥', error);

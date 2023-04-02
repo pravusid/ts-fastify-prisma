@@ -7,8 +7,8 @@ import { prisma } from './config/prisma';
 
 export namespace Container {
   const componentPath = {
-    api: '**/api/**/*-api.js',
-    service: '**/service/**/*-service.js',
+    api: '**/*-api.js',
+    service: '**/*-service.js',
   };
 
   const keys = {
@@ -27,34 +27,37 @@ export namespace Container {
 
   instance
     .register({
-      server: asValue(
+      fastify: asValue(
         Fastify({
           logger: {
             level: envs.isProd ? 'info' : 'debug',
           },
         }),
       ),
+    })
+    .register({
+      logger: asValue(instance.resolve<FastifyInstance>('fastify').log),
+    })
+    .register({
       app: asClass(App, { lifetime: Lifetime.SINGLETON }),
       prisma: asValue(prisma),
     })
     .register({
-      logger: asValue(instance.resolve<FastifyInstance>('server').log),
-    })
-    .register({
-      apis: asValue(keys.api.map(key => instance.resolve<Routable>(key))),
+      routables: asValue(keys.api.map(key => instance.resolve<Routable>(key))),
     });
 
-  export const create = async (): Promise<App> => {
+  export const initApp = async (): Promise<App> => {
+    const app = instance.resolve<App>('app');
     await Promise.all([
-      // initialization
+      /* initialization */
+      app.init(),
     ]);
-    return instance.resolve<App>('app');
+    return app;
   };
 
-  export const destroy = async (): Promise<void> => {
+  export const destroyApp = async (): Promise<void> => {
     await Promise.all([
-      // cleanup
+      /* cleanup */
     ]);
-    return instance.dispose();
   };
 }

@@ -1,1 +1,1 @@
-export type { FastifyLoggerInstance as Logger } from 'fastify';
+export type { FastifyBaseLogger as Logger } from 'fastify';

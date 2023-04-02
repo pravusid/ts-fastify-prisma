@@ -1,6 +1,6 @@
 {
   "name": "ts-fastify-prisma",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TypeScript, Fastify, Prisma",
   "author": "Sangdon Park",
   "license": "MIT",
@@ -28,17 +28,17 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
+    "@fastify/cors": "^8.2.1",
+    "@fastify/helmet": "^10.1.0",
     "@gquittet/graceful-server": "^2.5.1",
-    "@prisma/client": "3.0.2",
+    "@prisma/client": "4.12.0",
     "@types/lodash": "^4.14.173",
     "@types/node": "^16.9.2",
     "awilix": "^5.0.1",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
-    "fastify": "^3.21.3",
-    "fastify-cors": "^6.0.2",
-    "fastify-helmet": "^5.3.2",
-    "fastify-plugin": "^3.0.0",
+    "fastify": "^4.15.0",
+    "fastify-plugin": "^4.5.0",
     "lodash": "^4.17.21",
     "serialize-error": "^8.1.0",
     "typescript": "^4.4.3"
@@ -57,7 +57,7 @@
     "nodemon": "^2.0.12",
     "pino-pretty": "^7.0.1",
     "prettier": "^2.4.1",
-    "prisma": "3.0.2",
+    "prisma": "4.12.0",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.20",
     "ts-jest": "^27.0.5"
