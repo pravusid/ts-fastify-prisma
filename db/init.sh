@@ -3,7 +3,7 @@
 current_dir=$(dirname $BASH_SOURCE)
 cd $current_dir
 
-DEV_CONTAINER_NAME="ts-fp"
+DEV_CONTAINER_NAME="tsfastify"
 
 docker \
   run \
