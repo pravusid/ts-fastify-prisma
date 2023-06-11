@@ -1,8 +1,8 @@
 import { Post, PrismaClient } from '@prisma/client';
-import type { PostRequestDto } from '../dto/post-request-dto';
+import { PostCreateDto } from '../api/schema/post-type';
 import { Logger } from '../lib/logger';
 
-export default class PostService {
+export class PostService {
   constructor(
     //
     private readonly prisma: PrismaClient,
@@ -13,9 +13,11 @@ export default class PostService {
     return this.prisma.post.findUnique({ where: { id } });
   }
 
-  save(dto: PostRequestDto): Promise<Pick<Post, 'id'>> {
+  save(dto: PostCreateDto): Promise<Pick<Post, 'id'>> {
     const data = dto;
     this.logger.debug('post will be created: %o', data);
     return this.prisma.post.create({ data, select: { id: true } });
   }
 }
+
+export default PostService;

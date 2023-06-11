@@ -2,7 +2,7 @@
 
 - `typescript`
 - `fastify`
+- `fastify/type-provider-typebox`
 - `prisma`
 - `awilix`
-- `class-validator`
 - `jest`(`ts-jest`)

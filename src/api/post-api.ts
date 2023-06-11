@@ -1,42 +1,37 @@
-import { RouteOptions } from 'fastify';
-import { Routable } from '../app';
-import { PostRequestDto } from '../dto/post-request-dto';
+import { route } from '../lib/fastify';
 import { HTTP } from '../lib/http';
-import PostService from '../service/post-service';
+import { PostService } from '../service/post-service';
+import { postCreateSchema, postFindSchema } from './schema/post-type';
 
-export default class PostApi implements Routable {
-  readonly routes: RouteOptions[] = [];
+export class PostApi {
+  constructor(private readonly postService: PostService) {}
 
-  constructor(private readonly postService: PostService) {
-    this.routes.push(
-      this.getPost,
-      this.createPost,
-      //
-    );
-  }
-
-  private getPost: RouteOptions = {
+  getPost = route({
     method: 'GET',
     url: '/post/:id',
-    handler: async request => {
-      const { id } = request.getStrictParams('id');
+    schema: postFindSchema,
+    handler: async (request) => {
+      const { id } = request.params;
 
-      const post = await this.postService.getOne(parseInt(id));
+      const post = await this.postService.getOne(id);
 
       return post;
     },
-  };
+  });
 
-  private createPost: RouteOptions = {
+  createPost = route({
     method: 'POST',
     url: '/post',
-    onSend: HTTP.onSendHandler([HTTP.setStatus(201)]),
-    handler: async request => {
-      const dto = request.getBody(PostRequestDto);
+    schema: postCreateSchema,
+    onSend: HTTP.onSendSetStatus(201),
+    handler: async (request) => {
+      const dto = request.body;
 
       const { id } = await this.postService.save(dto);
 
       return { id };
     },
-  };
+  });
 }
+
+export default PostApi;

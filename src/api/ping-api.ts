@@ -1,18 +1,13 @@
-import { RouteOptions } from 'fastify';
-import { Routable } from '../app';
+import { route } from '../lib/fastify';
 
-export default class PingApi implements Routable {
-  readonly routes: RouteOptions[] = [];
-
-  constructor() {
-    this.routes.push(this.ping);
-  }
-
-  private ping: RouteOptions = {
+export class PingApi {
+  ping = route({
     method: 'GET',
     url: '/ping',
     handler: () => {
       return { message: 'pong' };
     },
-  };
+  });
 }
+
+export default PingApi;

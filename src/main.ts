@@ -18,7 +18,7 @@ async function bootstrap() {
     graceful.on(GracefulServer.SHUTTING_DOWN, () => {
       console.log('Server is shutting down');
     });
-    graceful.on(GracefulServer.SHUTDOWN, error => {
+    graceful.on(GracefulServer.SHUTDOWN, (error) => {
       console.log('Server is down', error);
     });
 

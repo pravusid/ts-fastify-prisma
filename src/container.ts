@@ -1,9 +1,11 @@
 import { asClass, asValue, createContainer, Lifetime, listModules } from 'awilix';
 import Fastify, { FastifyInstance } from 'fastify';
 import { camelCase } from 'lodash';
-import { App, Routable } from './app';
+import { App } from './app';
+import { AppRouter } from './app-router';
 import { envs } from './config/environments';
-import { prisma } from './config/prisma';
+import { prisma } from './infra/prisma';
+import { ClassType } from './types/ctor';
 
 export namespace Container {
   const componentPath = {
@@ -11,12 +13,9 @@ export namespace Container {
     service: '**/*-service.js',
   };
 
-  const keys = {
-    api: listModules(componentPath.api).map(e => camelCase(e.name)),
-    service: listModules(componentPath.service).map(e => camelCase(e.name)),
-  };
-
-  export const instance = createContainer({ injectionMode: 'CLASSIC' }).loadModules([...Object.values(componentPath)], {
+  export const instance = createContainer({
+    injectionMode: 'CLASSIC',
+  }).loadModules([...Object.values(componentPath)], {
     cwd: __dirname,
     formatName: 'camelCase',
     resolverOptions: {
@@ -29,21 +28,24 @@ export namespace Container {
     .register({
       fastify: asValue(
         Fastify({
-          logger: {
-            level: envs.isProd ? 'info' : 'debug',
-          },
+          logger: { level: envs.isProd ? 'info' : 'debug' },
         }),
       ),
     })
     .register({
       logger: asValue(instance.resolve<FastifyInstance>('fastify').log),
-    })
-    .register({
-      app: asClass(App, { lifetime: Lifetime.SINGLETON }),
       prisma: asValue(prisma),
     })
     .register({
-      routables: asValue(keys.api.map(key => instance.resolve<Routable>(key))),
+      app: asClass(App, { lifetime: Lifetime.SINGLETON }),
+      appRouter: asClass(AppRouter, { lifetime: Lifetime.SINGLETON }),
+    })
+    .register({
+      apis: asValue(
+        listModules(componentPath.api).map((e) => {
+          return instance.resolve<ClassType<unknown>>(camelCase(e.name));
+        }),
+      ),
     });
 
   export const initApp = async (): Promise<App> => {

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { envs } from './environments';
+import { envs } from '../config/environments';
 
 Object.assign(BigInt.prototype, {
   toJSON: function () {
