@@ -9,14 +9,13 @@ import { ClassType } from './types/ctor';
 
 export namespace Container {
   const componentPath = {
-    api: '**/*-api.js',
-    service: '**/*-service.js',
+    api: 'dist/**/*-api.js',
+    service: 'dist/**/*-service.js',
   };
 
   export const instance = createContainer({
     injectionMode: 'CLASSIC',
-  }).loadModules([...Object.values(componentPath)], {
-    cwd: __dirname,
+  }).loadModules(Object.values(componentPath), {
     formatName: 'camelCase',
     resolverOptions: {
       lifetime: Lifetime.SINGLETON,
