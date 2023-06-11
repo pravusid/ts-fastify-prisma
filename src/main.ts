@@ -1,6 +1,9 @@
-import GracefulServer from '@gquittet/graceful-server';
-import { envs } from './config/environments';
-import { Container } from './container';
+import _GracefulServer from '@gquittet/graceful-server';
+import { defaultImport } from 'default-import';
+import { envs } from './config/environments.js';
+import { Container } from './container.js';
+
+const GracefulServer = defaultImport(_GracefulServer);
 
 async function bootstrap() {
   try {

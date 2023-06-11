@@ -1,4 +1,4 @@
-import { route } from '../lib/fastify';
+import { route } from '../lib/fastify.js';
 
 export class PingApi {
   ping = route({

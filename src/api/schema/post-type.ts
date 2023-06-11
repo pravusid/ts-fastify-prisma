@@ -1,5 +1,5 @@
 import { Static, Type } from '@fastify/type-provider-typebox';
-import { schema } from '../../lib/fastify';
+import { schema } from '../../lib/fastify.js';
 
 export const postFindSchema = schema({
   params: Type.Object({ id: Type.Number() }),
@@ -13,4 +13,4 @@ export const postCreateSchema = schema({
   }),
 });
 
-export type PostCreateDto = Static<typeof postCreateSchema['body']>;
+export type PostCreateDto = Static<(typeof postCreateSchema)['body']>;

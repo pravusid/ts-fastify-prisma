@@ -1,9 +1,9 @@
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
-import { appPlugin } from './app-plugin';
-import { AppRouter } from './app-router';
-import { errorHandler } from './lib/error-handler';
-import { Fastify } from './lib/fastify';
+import { appPlugin } from './app-plugin.js';
+import { AppRouter } from './app-router.js';
+import { errorHandler } from './lib/error-handler.js';
+import { Fastify } from './lib/fastify.js';
 
 export class App {
   constructor(

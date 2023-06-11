@@ -1,7 +1,7 @@
 import { FastifyPluginCallback } from 'fastify';
-import { PingApi } from './api/ping-api';
-import { PostApi } from './api/post-api';
-import { Fastify, FastifyRouteOptions } from './lib/fastify';
+import { PingApi } from './api/ping-api.js';
+import { PostApi } from './api/post-api.js';
+import { Fastify, FastifyRouteOptions } from './lib/fastify.js';
 
 export class AppRouter {
   constructor(
