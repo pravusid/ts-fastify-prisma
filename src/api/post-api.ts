@@ -1,7 +1,7 @@
 import { route } from '../lib/fastify.js';
 import { HTTP } from '../lib/http.js';
 import { PostService } from '../service/post-service.js';
-import { postCreateSchema, postFindSchema } from './schema/post-type.js';
+import { postCreateSchema, postFindSchema } from './schema/post-schema.js';
 
 export class PostApi {
   constructor(private readonly postService: PostService) {}

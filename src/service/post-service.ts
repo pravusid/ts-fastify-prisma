@@ -1,5 +1,5 @@
 import { Post, PrismaClient } from '@prisma/client';
-import { PostCreateDto } from '../api/schema/post-type.js';
+import { PostCreateDto } from '../api/schema/post-schema.js';
 import { Logger } from '../lib/logger.js';
 
 export class PostService {
