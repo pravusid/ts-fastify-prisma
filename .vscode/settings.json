@@ -9,7 +9,10 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
+  "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
-  "javascript.validate.enable": false
+  "files.readonlyInclude": {
+    "types/**/*": true
+  }
 }
