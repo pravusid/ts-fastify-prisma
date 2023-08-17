@@ -5,7 +5,7 @@ import { AppRouter } from './app-router.js';
 import { App } from './app.js';
 import { envs } from './config/environments.js';
 import { prisma } from './infra/prisma.js';
-import { ClassType } from './types/ctor.js';
+import { ClassType } from './types.js';
 
 export namespace Container {
   const componentPath = {
