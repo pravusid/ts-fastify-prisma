@@ -1,7 +1,7 @@
 import { route } from '../lib/fastify.js';
 import { HTTP } from '../lib/http.js';
 import { PostService } from '../service/post-service.js';
-import { postCreateSchema, postFindSchema } from './schema/post-schema.js';
+import { PostCreateDto, postCreateSchema, postFindSchema } from './schema/post-schema.js';
 
 export class PostApi {
   constructor(private readonly postService: PostService) {}
@@ -25,7 +25,7 @@ export class PostApi {
     schema: postCreateSchema,
     onSend: HTTP.onSendSetStatus(201),
     handler: async (request) => {
-      const dto = request.body;
+      const dto: PostCreateDto = request.body;
 
       const { id } = await this.postService.save(dto);
 

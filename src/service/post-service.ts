@@ -1,5 +1,4 @@
-import { Post, PrismaClient } from '@prisma/client';
-import { PostCreateDto } from '../api/schema/post-schema.js';
+import { Post, Prisma, PrismaClient } from '@prisma/client';
 import { Logger } from '../lib/logger.js';
 
 export class PostService {
@@ -13,10 +12,9 @@ export class PostService {
     return this.prisma.post.findUnique({ where: { id } });
   }
 
-  save(dto: PostCreateDto): Promise<Pick<Post, 'id'>> {
-    const data = dto;
-    this.logger.debug('post will be created: %o', data);
-    return this.prisma.post.create({ data, select: { id: true } });
+  save(input: Prisma.PostCreateInput): Promise<Pick<Post, 'id'>> {
+    this.logger.debug('post will be created: %o', input);
+    return this.prisma.post.create({ data: input, select: { id: true } });
   }
 }
 
