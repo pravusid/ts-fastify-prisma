@@ -6,11 +6,13 @@ TypeScript(ESM) & Fastify & Prisma Example
 
 > nodejs@^20
 
-- `awilix` (dependency injection)
 - `typescript`
+- `awilix` (dependency injection)
 - `fastify`
 - `fastify/type-provider-typebox`
 - `prisma`
+- `graphql`
+- `graphql-codegen`
 - `jest`(`ts-jest`)
 
 ## Linting & Formatting
