@@ -1,5 +1,5 @@
 import { route } from '../lib/fastify.js';
-import { HTTP } from '../lib/http.js';
+import { Hooks } from '../lib/hooks.js';
 import { PostService } from '../service/post-service.js';
 import { PostCreateDto, postCreateSchema, postFindSchema } from './schema/post-schema.js';
 
@@ -23,7 +23,7 @@ export class PostApi {
     method: 'POST',
     url: '/post',
     schema: postCreateSchema,
-    onSend: HTTP.onSendSetStatus(201),
+    onSend: Hooks.onSendSetStatusCode(201)(),
     handler: async (request) => {
       const dto: PostCreateDto = request.body;
 

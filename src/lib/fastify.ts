@@ -9,6 +9,7 @@ import type {
   RawServerDefault,
   RouteGenericInterface,
   RouteOptions,
+  onSendHookHandler,
 } from 'fastify';
 
 /**
@@ -31,16 +32,41 @@ export interface FastifyRouteOptions<SchemaCompiler extends FastifySchema = Fast
     ContextConfigDefault,
     SchemaCompiler,
     TypeBoxTypeProvider
-  > {
-  __route?: boolean;
+  > {}
+
+export class FastifyRoute {
+  static [Symbol.hasInstance](value: unknown): value is FastifyRouteOptions {
+    return Object.getPrototypeOf(value) === FastifyRoute.prototype;
+  }
+
+  static create<const SchemaCompiler extends FastifySchema>(
+    opts: FastifyRouteOptions<SchemaCompiler>,
+  ): FastifyRouteOptions<SchemaCompiler> {
+    return Object.assign(new FastifyRoute(), opts);
+  }
+
+  private constructor() {}
 }
 
-export class FastifyRouteOptions {
-  __route?: boolean = true;
-}
+export const schema = <const SchemaCompiler extends FastifySchema>(payload: SchemaCompiler): SchemaCompiler => payload;
 
-export const schema = <SchemaCompiler extends FastifySchema>(payload: SchemaCompiler): SchemaCompiler => payload;
-
-export const route = <SchemaCompiler extends FastifySchema>(
+export const route = <const SchemaCompiler extends FastifySchema>(
   opts: FastifyRouteOptions<SchemaCompiler>,
-): FastifyRouteOptions<SchemaCompiler> => Object.assign(new FastifyRouteOptions(), opts);
+): FastifyRouteOptions<SchemaCompiler> => FastifyRoute.create(opts);
+
+export namespace FastifyHooks {
+  export type OnSendHander<SchemaCompiler extends FastifySchema = FastifySchema> = onSendHookHandler<
+    unknown,
+    RawServerDefault,
+    RawRequestDefaultExpression<RawServerDefault>,
+    RawReplyDefaultExpression<RawServerDefault>,
+    RouteGenericInterface,
+    ContextConfigDefault,
+    SchemaCompiler,
+    TypeBoxTypeProvider
+  >;
+
+  export const onSendHandler = (handler: onSendHookHandler) => {
+    return <const SchemaCompiler extends FastifySchema>(): OnSendHander<SchemaCompiler> => handler;
+  };
+}
