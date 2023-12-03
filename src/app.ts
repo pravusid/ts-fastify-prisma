@@ -7,7 +7,6 @@ import { Fastify } from './lib/fastify.js';
 
 export class App {
   constructor(
-    //
     private readonly fastify: Fastify,
     private readonly appRouter: AppRouter,
   ) {}

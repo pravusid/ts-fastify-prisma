@@ -5,7 +5,6 @@ import { Fastify, FastifyRouteOptions } from './lib/fastify.js';
 
 export class AppRouter {
   constructor(
-    //
     private readonly pingApi: PingApi,
     private readonly postApi: PostApi,
   ) {}

@@ -3,7 +3,6 @@ import { Logger } from '../lib/logger.js';
 
 export class PostService {
   constructor(
-    //
     private readonly prisma: PrismaClient,
     private readonly logger: Logger,
   ) {}
