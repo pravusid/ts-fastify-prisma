@@ -58,9 +58,6 @@ dependencies:
     version: 5.1.6
 
 devDependencies:
-  '@cspotcode/source-map-support':
-    specifier: ^0.8.1
-    version: 0.8.1
   '@graphql-codegen/cli':
     specifier: ^5.0.0
     version: 5.0.0(@types/node@20.5.0)(graphql@16.8.0)
@@ -829,13 +826,6 @@ packages:
 
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
-    dev: true
-
-  /@cspotcode/source-map-support@0.8.1:
-    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
   /@dependents/detective-less@3.0.2:
@@ -1743,13 +1733,6 @@ packages:
 
   /@jridgewell/trace-mapping@0.3.19:
     resolution: {integrity: sha512-kf37QtfW+Hwx/buWGMPcR60iF9ziHa6r/CZJIHbmcm4+0qrXiVdxegAH0F6yddEVQ7zdkjcGCgCzUu+BcbhQxw==}
-    dependencies:
-      '@jridgewell/resolve-uri': 3.1.1
-      '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
-
-  /@jridgewell/trace-mapping@0.3.9:
-    resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
