@@ -4,12 +4,13 @@ module.exports = {
     {
       name: 'ts-fp',
       script: './dist/main.js',
-      instances: 2,
-      restart_delay: 2000,
-      kill_timeout: 5000,
+      instances: 1,
+      restart_delay: 1000,
+      kill_timeout: 30000,
       merge_logs: true,
       env: {
         NODE_ENV: 'production',
+        // https://www.prisma.io/docs/concepts/more/telemetry#when-is-data-collected
         CHECKPOINT_DISABLE: '1',
       },
     },
