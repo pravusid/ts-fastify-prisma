@@ -7,18 +7,18 @@ import { envs } from './config/environments.js';
 import { prisma } from './infra/prisma.js';
 import { ClassType } from './types.js';
 
-export namespace Container {
-  const componentPath = {
+export class Container {
+  private readonly componentPath = {
     api: 'dist/**/*-api.js',
     service: 'dist/**/*-service.js',
   };
 
-  const instance = createContainer({
+  private readonly instance = createContainer({
     injectionMode: 'CLASSIC',
   });
 
-  export const initApp = async (): Promise<App> => {
-    await instance.loadModules(Object.values(componentPath), {
+  async initApp(): Promise<App> {
+    await this.instance.loadModules(Object.values(this.componentPath), {
       esModules: true,
       formatName: 'camelCase',
       resolverOptions: {
@@ -27,7 +27,7 @@ export namespace Container {
       },
     });
 
-    instance
+    this.instance
       .register({
         fastify: asValue(
           Fastify({
@@ -36,7 +36,7 @@ export namespace Container {
         ),
       })
       .register({
-        logger: asValue(instance.resolve<FastifyInstance>('fastify').log),
+        logger: asValue(this.instance.resolve<FastifyInstance>('fastify').log),
         prisma: asValue(prisma),
       })
       .register({
@@ -45,13 +45,13 @@ export namespace Container {
       })
       .register({
         apis: asValue(
-          listModules(componentPath.api).map((e) => {
-            return instance.resolve<ClassType<unknown>>(camelCase(e.name));
+          listModules(this.componentPath.api).map((e) => {
+            return this.instance.resolve<ClassType<unknown>>(camelCase(e.name));
           }),
         ),
       });
 
-    const app = instance.resolve<App>('app');
+    const app = this.instance.resolve<App>('app');
 
     await Promise.all([
       /* initialization */
@@ -59,11 +59,11 @@ export namespace Container {
     ]);
 
     return app;
-  };
+  }
 
-  export const destroyApp = async (): Promise<void> => {
+  async destroyApp(): Promise<void> {
     await Promise.all([
       /* cleanup */
     ]);
-  };
+  }
 }

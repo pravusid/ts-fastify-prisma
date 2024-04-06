@@ -7,11 +7,12 @@ const GracefulServer = defaultImport(_GracefulServer);
 
 async function bootstrap() {
   try {
-    const app = await Container.initApp();
+    const container = new Container();
+    const app = await container.initApp();
     const fastify = app.getInstance();
 
     const graceful = GracefulServer(fastify.server, {
-      closePromises: [Container.destroyApp],
+      closePromises: [container.destroyApp],
       timeout: 3_000,
     });
 
