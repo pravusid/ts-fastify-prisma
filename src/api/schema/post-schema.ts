@@ -1,4 +1,4 @@
-import { Static, Type } from '@fastify/type-provider-typebox';
+import { type Static, Type } from '@fastify/type-provider-typebox';
 import { schema } from '../../lib/fastify.js';
 
 export const postFindSchema = schema({

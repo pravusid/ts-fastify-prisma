@@ -1,11 +1,11 @@
-import { asClass, asValue, createContainer, Lifetime, listModules } from 'awilix';
-import Fastify, { FastifyInstance } from 'fastify';
+import { Lifetime, asClass, asValue, createContainer, listModules } from 'awilix';
+import Fastify, { type FastifyInstance } from 'fastify';
 import { camelCase } from 'lodash-es';
 import { AppRouter } from './app-router.js';
 import { App } from './app.js';
 import { envs } from './config/environments.js';
 import { prisma } from './infra/prisma.js';
-import { ClassType } from './types.js';
+import type { ClassType } from './types.js';
 
 export class Container {
   private readonly componentPath = {

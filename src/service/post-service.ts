@@ -1,5 +1,5 @@
-import { Post, Prisma, PrismaClient } from '@prisma/client';
-import { Logger } from '../lib/logger.js';
+import type { Post, Prisma, PrismaClient } from '@prisma/client';
+import type { Logger } from '../lib/logger.js';
 
 export class PostService {
   constructor(

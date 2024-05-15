@@ -2,17 +2,26 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": [
-    "source.addMissingImports",
-    "source.organizeImports"
-  ],
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.organizeImports.biome": "explicit",
+    "quickfix.biome": "explicit"
+  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
+  "files.readonlyInclude": {
+    "types/**/*": true
+  },
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
-  "files.readonlyInclude": {
-    "types/**/*": true
-  }
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "eslint.enable": false,
+  "biome.enabled": true
 }

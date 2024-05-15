@@ -17,5 +17,4 @@ TypeScript(ESM) & Fastify & Prisma Example
 
 ## Linting & Formatting
 
-- typescript-eslint
-- prettier
+- Biome

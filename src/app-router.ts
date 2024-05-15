@@ -1,7 +1,7 @@
-import { FastifyPluginCallback } from 'fastify';
-import { PingApi } from './api/ping-api.js';
-import { PostApi } from './api/post-api.js';
-import { Fastify, FastifyRoute } from './lib/fastify.js';
+import type { FastifyPluginCallback } from 'fastify';
+import type { PingApi } from './api/ping-api.js';
+import type { PostApi } from './api/post-api.js';
+import { type Fastify, FastifyRoute } from './lib/fastify.js';
 
 export class AppRouter {
   constructor(
@@ -17,11 +17,11 @@ export class AppRouter {
   };
 
   private applyRoutes = (instance: Fastify, api: object): void => {
-    Object.values(api).forEach((e) => {
+    for (const e of Object.values(api)) {
       if (e instanceof FastifyRoute) {
         instance.route(e);
       }
-    });
+    }
   };
 }
 

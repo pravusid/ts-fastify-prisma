@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto';
-import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
+import { randomUUID } from 'node:crypto';
+import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { serializeError } from 'serialize-error';
 import { PublicError } from '../domain/public-error.js';
-import { Fastify } from './fastify.js';
+import type { Fastify } from './fastify.js';
 
 export const errorHandler =
   (fastify: Fastify) =>
